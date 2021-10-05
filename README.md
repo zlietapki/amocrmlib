@@ -1,0 +1,2 @@
+# amocrmlib
+amoCRM for Golang
