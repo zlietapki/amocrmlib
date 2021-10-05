@@ -1,0 +1,674 @@
+swagger: "2.0"
+info:
+  title: AmoCrmLib
+  version: 0.0.1
+  description: "amocrmlib"
+
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+  - http
+
+paths: {}
+
+definitions:
+  Token:
+    type: object
+    properties:
+      domain:
+        type: string
+        x-nullable: false
+      redirect_uri:
+        type: string
+        x-nullable: false
+      client_secret:
+        type: string
+        x-nullable: false
+      client_id:
+        type: string
+        x-nullable: false
+      access_token:
+        type: string
+        x-nullable: false
+      access_token_expire:
+        type: string
+        format: datetime
+        x-nullable: false
+      refresh_token:
+        type: string
+        x-nullable: false
+    required:
+      - domain
+      - redirect_uri
+      - client_secret
+      - client_id
+      - access_token
+      - access_token_expire
+      - refresh_token
+
+  OAuth2Req:
+    type: object
+    properties:
+      client_secret:
+        type: string
+        x-nullable: false
+      client_id:
+        type: string
+        x-nullable: false
+      redirect_uri:
+        type: string
+        x-nullable: false
+      grant_type:
+        type: string
+        x-nullable: false
+      code:
+        type: string
+        x-nullable: false
+      refresh_token:
+        type: string
+        x-nullable: false
+
+  OAuth2Res:
+    type: object
+    properties:
+      token_type:
+        type: string
+      expires_in:
+        type: integer
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+
+  CustomFieldsValue:
+    type: object
+    properties:
+      field_id:
+        type: integer
+        format: int
+      field_name:
+        type: string
+      field_code:
+        type: string
+      field_type:
+        type: string
+      values:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldsValueItem"
+  CustomFieldsValueItem:
+    type: object
+    properties:
+      value:
+        type: string
+      enum_id:
+        type: integer
+      enum_code:
+        type: string
+
+  EmbTag:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+
+  EmbCompany:
+    type: object
+    properties:
+      id:
+        type: integer
+
+  EmbCustomer:
+    type: object
+    properties:
+      id:
+        type: integer
+
+  EmbLead:
+    type: object
+    properties:
+      id:
+        type: integer
+
+  EditResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      updated_at:
+        type: integer
+      request_id:
+        type: string
+
+  CompaniesListResponse:
+    type: object
+    properties:
+      _page:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          companies:
+            type: array
+            items:
+              $ref: "#/definitions/Company"
+  Company:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      responsible_user_id:
+        type: integer
+      group_id:
+        type: integer
+      created_by:
+        type: integer
+      updated_by:
+        type: integer
+      created_at:
+        type: integer
+      updated_at:
+        type: integer
+      is_deleted:
+        type: boolean
+      custom_fields_values:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldsValue"
+      account_id:
+        type: integer
+  CompaniesAddResponse:
+    type: object
+    properties:
+      _embedded:
+        type: object
+        properties:
+          companies:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                is_deleted:
+                  type: boolean
+                request_id:
+                  type: string
+
+  ContactsListResponse:
+    type: object
+    properties:
+      _page:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          contacts:
+            type: array
+            items:
+              $ref: "#/definitions/Contact"
+  Contact:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      responsible_user_id:
+        type: integer
+      group_id:
+        type: integer
+      created_by:
+        type: integer
+      updated_by:
+        type: integer
+      created_at:
+        type: integer
+      updated_at:
+        type: integer
+      is_deleted:
+        type: boolean
+      closest_task_at:
+        type: integer
+      custom_fields_values:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldsValue"
+      account_id:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          tags:
+            type: array
+            items:
+              $ref: "#/definitions/EmbTag"
+          companies:
+            type: array
+            items:
+              $ref: "#/definitions/EmbCompany"
+          customers:
+            type: array
+            items:
+              $ref: "#/definitions/EmbCustomer"
+          leads:
+            type: array
+            items:
+              $ref: "#/definitions/EmbLead"
+  ContactsAddResponse:
+    type: object
+    properties:
+      _embedded:
+        type: object
+        properties:
+          contacts:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                is_deleted:
+                  type: boolean
+                request_id:
+                  type: string
+
+  CustomFieldsListResponse:
+    type: object
+    properties:
+      _total_items:
+        type: integer
+      _page:
+        type: integer
+      _page_count:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          custom_fields:
+            type: array
+            items:
+              $ref: "#/definitions/CustomField"
+  CustomField:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      code:
+        type: string
+      sort:
+        type: integer
+      type:
+        type: integer
+      entity_type:
+        type: string
+      is_predefined:
+        type: boolean
+      is_deletable:
+        type: boolean
+      is_visible:
+        type: boolean
+      is_required:
+        type: boolean
+#      settings:
+      remind:
+        type: string
+      enums:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldEnum"
+      nested:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldNested"
+      is_api_only:
+        type: boolean
+      group_id:
+        type: string
+      required_statuses:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldRequiredStatus"
+      tracking_callback:
+        type: string
+  CustomFieldEnum:
+    type: object
+    properties:
+      id:
+        type: integer
+      value:
+        type: string
+      sort:
+        type: integer
+  CustomFieldNested:
+    type: object
+    properties:
+      id:
+        type: integer
+      parent_id:
+        type: integer
+      value:
+        type: string
+      sort:
+        type: integer
+  CustomFieldRequiredStatus:
+    type: object
+    properties:
+      status_id:
+        type: integer
+      pipeline_id:
+        type: integer
+
+
+  LeadsListResponse:
+    type: object
+    properties:
+      _page:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          leads:
+            type: array
+            items:
+              $ref: "#/definitions/Lead"
+  Lead:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      responsible_user_id:
+        type: integer
+      group_id:
+        type: integer
+      status_id:
+        type: integer
+      pipeline_id:
+        type: integer
+      created_by:
+        type: integer
+      updated_by:
+        type: integer
+      created_at:
+        type: integer
+      updated_at:
+        type: integer
+      closed_at:
+        type: integer
+      is_deleted:
+        type: boolean
+      custom_fields_values:
+        type: array
+        items:
+          $ref: "#/definitions/CustomFieldsValue"
+      account_id:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          tags:
+            type: array
+            items:
+              $ref: "#/definitions/EmbTag"
+          companies:
+            type: array
+            items:
+              $ref: "#/definitions/EmbCompany"
+  LeadsAddResponse:
+    type: object
+    properties:
+      _embedded:
+        type: object
+        properties:
+          leads:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                is_deleted:
+                  type: boolean
+                request_id:
+                  type: string
+
+  LinksListResponse:
+    type: object
+    properties:
+      _total_items:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          links:
+            type: array
+            items:
+              $ref: "#/definitions/Link"
+  Link:
+    type: object
+    properties:
+      to_entity_id:
+        type: integer
+      to_entity_type:
+        type: string
+      metadata:
+        type: object
+        properties:
+          catalog_id:
+            type: integer
+          main_contact:
+            type: boolean
+          price_id:
+            type: integer
+          quantity:
+            type: integer
+  EntityLinksAdd:
+    type: array
+    items:
+      type: object
+      properties:
+        to_entity_id:
+          type: integer
+        to_entity_type:
+          type: string
+        metadata:
+          type: object
+          properties:
+            quantity:
+              type: integer
+            catalog_id:
+              type: integer
+            is_main:
+              type: boolean
+            updated_by:
+              type: integer
+            price_id:
+              type: integer
+  LinkUnlinks:
+    type: array
+    items:
+      type: object
+      properties:
+        to_entity_id:
+          type: integer
+        to_entity_type:
+          type: string
+        metadata:
+          type: object
+          properties:
+            catalog_id:
+              type: integer
+
+  NotesListResponse:
+    type: object
+    properties:
+      _page:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          notes:
+            type: array
+            items:
+              $ref: "#/definitions/Note"
+  Note:
+    type: object
+    properties:
+      id:
+        type: integer
+      entity_id:
+        type: integer
+      created_by:
+        type: integer
+      updated_by:
+        type: integer
+      created_at:
+        type: integer
+      updated_at:
+        type: integer
+      responsible_user_id:
+        type: integer
+      group_id:
+        type: integer
+      note_type:
+        type: string
+      params:
+        $ref: "#/definitions/NoteParams"
+      account_id:
+        type: integer
+  NoteParams:
+    type: object
+    properties:
+      text:
+        type: string
+      uniq:
+        type: string
+      duration:
+        type: integer
+      source:
+        type: string
+      link:
+        type: string
+      phone:
+        type: string
+      service:
+        type: string
+      status:
+        type: string
+      address:
+        type: string
+      longitude:
+        type: string
+      latitude:
+        type: string
+  NoteAddRequest:
+    type: object
+    properties:
+      created_by:
+        type: integer
+      note_type:
+        type: string
+      params:
+        $ref: "#/definitions/NoteParams"
+      request_id:
+        type: string
+  NoteAddResponse:
+    type: object
+    properties:
+      _embedded:
+        type: object
+        properties:
+          notes:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                entity_id:
+                  type: integer
+                request_id:
+                  type: string
+
+  UsersListResponse:
+    type: object
+    properties:
+      _total_items:
+        type: integer
+      _page:
+        type: integer
+      _page_count:
+        type: integer
+      _embedded:
+        type: object
+        properties:
+          users:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      lang:
+        type: string
+      rights:
+        type: object
+        properties:
+          leads:
+            $ref: "#/definitions/UserRightsOptions"
+          contacts:
+            $ref: "#/definitions/UserRightsOptions"
+          companies:
+            $ref: "#/definitions/UserRightsOptions"
+          tasks:
+            $ref: "#/definitions/UserRightsOptions"
+          mail_access:
+            type: boolean
+          catalog_access:
+            type: boolean
+          is_admin:
+            type: boolean
+          is_free:
+            type: boolean
+          is_active:
+            type: boolean
+          group_id:
+            type: integer
+          role_id:
+            type: integer
+  UserRightsOptions:
+    type: object
+    properties:
+      view:
+        type: string
+      edit:
+        type: string
+      add:
+        type: string
+      delete:
+        type: string
+      export:
+        type: string
