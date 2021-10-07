@@ -23,9 +23,9 @@ func TestToken_GetContactsList(t *testing.T) {
 	require.True(t, found)
 }
 
-func TestToken_GetContactById(t *testing.T) {
+func TestToken_GetContactByID(t *testing.T) {
 	testContact := getRandomContact()
-	cont, err := token.GetContactById(testContact.ID)
+	cont, err := token.GetContactByID(testContact.ID)
 	require.NoError(t, err)
 	require.Equal(t, testContact.ID, cont.ID)
 }
@@ -36,7 +36,7 @@ func TestToken_AddContact(t *testing.T) {
 	require.NoError(t, err)
 	contID := contAddresp.Embedded.Contacts[0].ID
 
-	cont2, err := token.GetContactById(contID)
+	cont2, err := token.GetContactByID(contID)
 	require.NoError(t, err)
 	require.Equal(t, testName, cont2.Name)
 }
@@ -51,7 +51,7 @@ func TestToken_EditContact(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, testContact.ID, editContactResp.ID)
 
-	cont2, err := token.GetContactById(testContact.ID)
+	cont2, err := token.GetContactByID(testContact.ID)
 	require.NoError(t, err)
 	require.Equal(t, testName, cont2.Name)
 }
@@ -66,7 +66,7 @@ func TestToken_SetContactResponsibleUserID(t *testing.T) {
 	require.Equal(t, testContact.ID, editResp.ID)
 
 	//check
-	cont2, err := token.GetContactById(testContact.ID)
+	cont2, err := token.GetContactByID(testContact.ID)
 	require.NoError(t, err)
 	require.Equal(t, testUser.ID, cont2.ResponsibleUserID)
 

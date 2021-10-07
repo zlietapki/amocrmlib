@@ -9,8 +9,8 @@ import (
 	"github.com/zlietapki/amocrmlib/apimodel"
 )
 
-func (t *Token) GetLinksList(entityType string, entityId int64) ([]*apimodel.Link, error) {
-	path := fmt.Sprintf("/api/v4/%s/%d/links", entityType, entityId)
+func (t *Token) GetLinksList(entityType string, entityID int64) ([]*apimodel.Link, error) {
+	path := fmt.Sprintf("/api/v4/%s/%d/links", entityType, entityID)
 	resp, err := t.DoRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -24,10 +24,10 @@ func (t *Token) GetLinksList(entityType string, entityId int64) ([]*apimodel.Lin
 	return linksListResp.Embedded.Links, nil
 }
 
-func (t *Token) AddLink(toEntityType string, toEntityId int64, fromEntityType string, fromEntityId int64) error {
+func (t *Token) AddLink(toEntityType string, toEntityID int64, fromEntityType string, fromEntityID int64) error {
 	req, err := json.Marshal(apimodel.EntityLinksAdd{
 		{
-			ToEntityID:   toEntityId,
+			ToEntityID:   toEntityID,
 			ToEntityType: toEntityType,
 		},
 	})
@@ -35,7 +35,7 @@ func (t *Token) AddLink(toEntityType string, toEntityId int64, fromEntityType st
 		return errors.WithStack(err)
 	}
 
-	path := fmt.Sprintf("/api/v4/%s/%d/link", fromEntityType, fromEntityId)
+	path := fmt.Sprintf("/api/v4/%s/%d/link", fromEntityType, fromEntityID)
 	resp, err := t.DoRequest(http.MethodPost, path, req)
 	if err != nil {
 		return err
@@ -49,10 +49,10 @@ func (t *Token) AddLink(toEntityType string, toEntityId int64, fromEntityType st
 	return nil
 }
 
-func (t *Token) Unlink(toEntityType string, toEntityId int64, fromEntityType string, fromEntityId int64) error {
+func (t *Token) Unlink(toEntityType string, toEntityID int64, fromEntityType string, fromEntityID int64) error {
 	req, err := json.Marshal(apimodel.LinkUnlinks{
 		{
-			ToEntityID:   toEntityId,
+			ToEntityID:   toEntityID,
 			ToEntityType: toEntityType,
 		},
 	})
@@ -60,7 +60,7 @@ func (t *Token) Unlink(toEntityType string, toEntityId int64, fromEntityType str
 		return errors.WithStack(err)
 	}
 
-	path := fmt.Sprintf("/api/v4/%s/%d/unlink", fromEntityType, fromEntityId)
+	path := fmt.Sprintf("/api/v4/%s/%d/unlink", fromEntityType, fromEntityID)
 	_, err = t.DoRequest(http.MethodPost, path, req)
 	if err != nil {
 		return err

@@ -9,8 +9,8 @@ import (
 	"github.com/zlietapki/amocrmlib/apimodel"
 )
 
-func (t *Token) GetNotes(entityType string, entityId int64) ([]*apimodel.Note, error) {
-	url := fmt.Sprintf("/api/v4/%s/%d/notes", entityType, entityId)
+func (t *Token) GetNotes(entityType string, entityID int64) ([]*apimodel.Note, error) {
+	url := fmt.Sprintf("/api/v4/%s/%d/notes", entityType, entityID)
 	resp, err := t.DoRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
@@ -27,8 +27,8 @@ func (t *Token) GetNotes(entityType string, entityId int64) ([]*apimodel.Note, e
 	return notesResp.Embedded.Notes, nil
 }
 
-func (t *Token) GetNote(entityType string, noteId int64) (*apimodel.Note, error) {
-	url := fmt.Sprintf("/api/v4/%s/notes/%d", entityType, noteId)
+func (t *Token) GetNote(entityType string, noteID int64) (*apimodel.Note, error) {
+	url := fmt.Sprintf("/api/v4/%s/notes/%d", entityType, noteID)
 	resp, err := t.DoRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (t *Token) GetNote(entityType string, noteId int64) (*apimodel.Note, error)
 	return apiNote, nil
 }
 
-func (t *Token) AddNoteCommon(entityType string, entityId int64, text string) (*apimodel.NoteAddResponse, error) {
+func (t *Token) AddNoteCommon(entityType string, entityID int64, text string) (*apimodel.NoteAddResponse, error) {
 	reqStruct := []apimodel.NoteAddRequest{
 		{
 			NoteType: "common",
@@ -59,7 +59,7 @@ func (t *Token) AddNoteCommon(entityType string, entityId int64, text string) (*
 		return nil, errors.WithStack(err)
 	}
 
-	path := fmt.Sprintf("/api/v4/%s/%d/notes", entityType, entityId)
+	path := fmt.Sprintf("/api/v4/%s/%d/notes", entityType, entityID)
 	resp, err := t.DoRequest(http.MethodPost, path, bodyReq)
 	if err != nil {
 		return nil, err

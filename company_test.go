@@ -39,29 +39,29 @@ func TestToken_GetCompaniesList(t *testing.T) {
 
 }
 
-func TestToken_GetCompanyById(t *testing.T) {
+func TestToken_GetCompanyByID(t *testing.T) {
 	testCompany := getRandomCompany()
 
 	cases := []struct {
 		name        string
-		companyId   int64
+		companyID   int64
 		wantIsFound bool
 	}{
 		{
 			name:        "existing company",
-			companyId:   testCompany.ID,
+			companyID:   testCompany.ID,
 			wantIsFound: true,
 		},
 		{
 			name:        "non existing testCompany",
-			companyId:   9999999999,
+			companyID:   9999999999,
 			wantIsFound: false,
 		},
 	}
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			comp, err := token.GetCompanyById(c.companyId)
+			comp, err := token.GetCompanyByID(c.companyID)
 			if c.wantIsFound {
 				require.NotNil(t, comp)
 				require.NoError(t, err)
@@ -69,7 +69,7 @@ func TestToken_GetCompanyById(t *testing.T) {
 			} else {
 				require.Nil(t, comp)
 				require.Error(t, err)
-				require.Equal(t, fmt.Sprintf("company not found: %d", c.companyId), err.Error())
+				require.Equal(t, fmt.Sprintf("company not found: %d", c.companyID), err.Error())
 			}
 		})
 	}
@@ -82,7 +82,7 @@ func TestToken_AddCompany(t *testing.T) {
 	require.NotNil(t, companyAddRes)
 
 	compID := companyAddRes.Embedded.Companies[0].ID
-	company, err := token.GetCompanyById(compID)
+	company, err := token.GetCompanyByID(compID)
 	require.NoError(t, err)
 	require.Equal(t, testName, company.Name)
 }
@@ -115,7 +115,7 @@ func TestToken_SetCompanyResponsibleUserID(t *testing.T) {
 	require.NotEmpty(t, editResp)
 
 	//check
-	comp2, err := token.GetCompanyById(company.ID)
+	comp2, err := token.GetCompanyByID(company.ID)
 	require.NoError(t, err)
 	require.Equal(t, testUser.ID, comp2.ResponsibleUserID)
 

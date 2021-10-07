@@ -7,3 +7,7 @@ models:
 .PHONY: lint
 lint: ${GOBIN}/golangci-lint
 	golangci-lint run -v
+
+.PHONY: test
+test: lint
+	go test -v -count=1 -failfast ./...

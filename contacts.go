@@ -31,14 +31,14 @@ func (t *Token) GetContactsList(query string) (*apimodel.ContactsListResponse, e
 	return contactsListResp, nil
 }
 
-func (t *Token) GetContactById(contactId int64) (*apimodel.Contact, error) {
-	path := fmt.Sprintf("/api/v4/contacts/%d", contactId)
+func (t *Token) GetContactByID(contactID int64) (*apimodel.Contact, error) {
+	path := fmt.Sprintf("/api/v4/contacts/%d", contactID)
 	resp, err := t.DoRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
 	}
 	if len(resp) == 0 {
-		return nil, errors.Errorf("contact not found: %d", contactId)
+		return nil, errors.Errorf("contact not found: %d", contactID)
 	}
 
 	contact := new(apimodel.Contact)

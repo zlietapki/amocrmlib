@@ -31,14 +31,14 @@ func (t *Token) GetLeadsList(query string) ([]*apimodel.Lead, error) {
 	return leadsList.Embedded.Leads, nil
 }
 
-func (t *Token) GetLeadById(leadId int64) (*apimodel.Lead, error) {
-	path := fmt.Sprintf("/api/v4/leads/%d", leadId)
+func (t *Token) GetLeadByID(leadID int64) (*apimodel.Lead, error) {
+	path := fmt.Sprintf("/api/v4/leads/%d", leadID)
 	resp, err := t.DoRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
 	}
 	if len(resp) == 0 {
-		return nil, errors.Errorf("lead not found: %d", leadId)
+		return nil, errors.Errorf("lead not found: %d", leadID)
 	}
 
 	lead := new(apimodel.Lead)
@@ -74,13 +74,13 @@ func (t *Token) AddLead(name string) (*apimodel.LeadsAddResponse, error) {
 	return addRes, nil
 }
 
-func (t *Token) EditLead(leadId int64, apiData *apimodel.Lead) error {
+func (t *Token) EditLead(leadID int64, apiData *apimodel.Lead) error {
 	req, err := apiData.MarshalBinary()
 	if err != nil {
 		return errors.WithStack(err)
 	}
 
-	path := fmt.Sprintf("/api/v4/leads/%d", leadId)
+	path := fmt.Sprintf("/api/v4/leads/%d", leadID)
 	resp, err := t.DoRequest(http.MethodPatch, path, req)
 	if err != nil {
 		return err

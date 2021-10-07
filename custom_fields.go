@@ -23,7 +23,7 @@ func (t *Token) GetCustomFieldsList(entityType string) (*apimodel.CustomFieldsLi
 	return apiCustomFieldsList, nil
 }
 
-func (t *Token) GetCustomFieldId(entityType string, fieldName string) (int64, error) {
+func (t *Token) GetCustomFieldID(entityType string, fieldName string) (int64, error) {
 	fieldsListResp, err := t.GetCustomFieldsList(entityType)
 	if err != nil {
 		return 0, err

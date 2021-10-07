@@ -32,14 +32,14 @@ func (t *Token) GetCompaniesList(query string) (*apimodel.CompaniesListResponse,
 	return compsListResp, nil
 }
 
-func (t *Token) GetCompanyById(companyId int64) (*apimodel.Company, error) {
-	path := fmt.Sprintf("/api/v4/companies/%d", companyId)
+func (t *Token) GetCompanyByID(companyID int64) (*apimodel.Company, error) {
+	path := fmt.Sprintf("/api/v4/companies/%d", companyID)
 	resp, err := t.DoRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
 	}
 	if len(resp) == 0 {
-		return nil, errors.Errorf("company not found: %d", companyId)
+		return nil, errors.Errorf("company not found: %d", companyID)
 	}
 
 	company := new(apimodel.Company)
@@ -74,13 +74,13 @@ func (t *Token) AddCompany(name string) (*apimodel.CompaniesAddResponse, error) 
 	return compAddResponse, nil
 }
 
-func (t *Token) EditCompany(companyId int64, companyData *apimodel.Company) (*apimodel.EditResponse, error) {
+func (t *Token) EditCompany(companyID int64, companyData *apimodel.Company) (*apimodel.EditResponse, error) {
 	req, err := companyData.MarshalBinary()
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	path := fmt.Sprintf("/api/v4/companies/%d", companyId)
+	path := fmt.Sprintf("/api/v4/companies/%d", companyID)
 	resp, err := t.DoRequest(http.MethodPatch, path, req)
 	if err != nil {
 		return nil, err

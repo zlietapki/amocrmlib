@@ -18,7 +18,7 @@ type ErrorApi struct {
 }
 
 type ErrorApiValidationError struct {
-	RequestId string                         `json:"request_id"`
+	RequestID string                         `json:"request_id"`
 	Errors    []ErrorApiValidationErrorError `json:"errors"`
 }
 
@@ -36,7 +36,7 @@ func (e ErrorApi) Error() string {
 			vErrDetails = append(vErrDetails, fmt.Sprintf("code: %s path: %s detail: %s", ext.Code, ext.Path, ext.Detail))
 		}
 		vErrDetailsStr := strings.Join(vErrDetails, " ")
-		validationErrs := fmt.Sprintf("Request id: %s Details: %s", vErr.RequestId, vErrDetailsStr)
+		validationErrs := fmt.Sprintf("Request id: %s Details: %s", vErr.RequestID, vErrDetailsStr)
 		vErrs = append(vErrs, validationErrs)
 	}
 	validationErrors := strings.Join(vErrs, " ")

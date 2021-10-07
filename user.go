@@ -25,8 +25,8 @@ func (t *Token) GetUsersList() (*apimodel.UsersListResponse, error) {
 	return usersListResp, nil
 }
 
-func (t *Token) GetUserById(userId int64) (*apimodel.User, error) {
-	path := fmt.Sprintf("/api/v4/users/%d", userId)
+func (t *Token) GetUserByID(userID int64) (*apimodel.User, error) {
+	path := fmt.Sprintf("/api/v4/users/%d", userID)
 	resp, err := t.DoRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
